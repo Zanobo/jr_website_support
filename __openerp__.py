@@ -1,9 +1,9 @@
 {
     'name': "Website Help Desk / Support Ticket",
     'version': "1.9.13",
-    'author': "Sythil Tech",
+    'author': "Sythil Tech, modified by Zanobo Partners",
     'category': "Tools",
-    'support': "steven@sythiltech.com.au",
+    'support': "nolan@zanobo.com",
     'summary': "A helpdesk / support ticket system for your website",
     'description': "A helpdesk / support ticket system for your website",
     'license':'LGPL-3',
@@ -36,4 +36,5 @@
         'static/description/6.jpg',
     ],
     'installable': True,
+    'application': True,
 }

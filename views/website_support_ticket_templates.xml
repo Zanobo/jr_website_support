@@ -102,7 +102,12 @@
 <template id="support_ticket_view_list" name="My Support Tickets" page="True">
     <t t-call="website.layout">
         <div class="container">
-
+            <div class="col-md-12 mt16 mb16">
+                <div class="pull-right">
+                    <a href="/support/ticket/submit">Submit a Ticket</a>
+                        | <a href="/support/help">Help Page</a>
+                </div>
+            </div>
 
             <div class="mt16 mb16">
                 <h1 class="text-center">My Support Tickets</h1>
@@ -292,6 +297,14 @@
       <div id="wrap" class="oe_structure oe_empty">
       <section>
         <div class="container">
+            <div class="col-md-12 mt16 mb16">
+                <div class="pull-right">
+                    <a href="/support/help">Help Page</a>
+                    <t t-if="request.env.user.partner_id.name != 'Public user'">
+                        | <a href="/support/ticket/view">My Tickets</a>
+                    </t>
+                </div>
+            </div>
           <div class="row">
             <div class="col-md-12">
               <h1 class="text-center">Submit Support Ticket</h1>
