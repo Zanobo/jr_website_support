@@ -104,8 +104,8 @@
         <div class="container">
             <div class="col-md-12 mt16 mb16">
                 <div class="pull-right">
+                    <a href="/support/help">Help Page</a> |
                     <a href="/support/ticket/submit">Submit a Ticket</a>
-                        | <a href="/support/help">Help Page</a>
                 </div>
             </div>
 
