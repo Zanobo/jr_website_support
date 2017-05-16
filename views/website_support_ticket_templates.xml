@@ -104,7 +104,6 @@
         <div class="container">
             <div class="col-md-12 mt16 mb16">
                 <div class="pull-right">
-                    <a href="/support/help">Help Page</a> |
                     <a href="/support/ticket/submit">Submit a Ticket</a>
                 </div>
             </div>
@@ -299,7 +298,6 @@
         <div class="container">
             <div class="col-md-12 mt16 mb16">
                 <div class="pull-right">
-                    <a href="/support/help">Help Page</a>
                     <t t-if="request.env.user.partner_id.name != 'Public user'">
                         | <a href="/support/ticket/view">My Tickets</a>
                     </t>
@@ -347,7 +345,7 @@
             <div name="file_container" t-attf-class="form-group #{error and 'file' in error and 'has-error' or ''}">
                 <label class="col-md-3 col-sm-4 control-label" for="file">Add Attachment</label>
 	        <div class="col-md-7 col-sm-8">
-                    <div class="btn btn-default btn-file col-md-12"><input name="file" type="file" /></div>
+                    <div class="btn btn-default btn-file col-md-12"><input name="file" type="file" required="True"/></div>
                 </div>
             </div>
             <div t-attf-class="form-group #{error and 'description' in error and 'has-error' or ''}">
