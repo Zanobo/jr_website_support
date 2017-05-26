@@ -151,7 +151,23 @@ class SupportTicketController(http.Controller):
             ticket.state = request.env['ir.model.data'].sudo().get_object('website_support', 'website_ticket_state_customer_replied')
             
             request.env['website.support.ticket'].sudo().browse(ticket.id).message_post(body=values['comment'], subject="Support Ticket Reply", message_type="comment")
-        
+
+            partner = http.request.env.user.partner_id
+
+            # Add to the communication history
+            partner.message_post(body=values['comment'], subject="Support Ticket Reply")
+
+            #send an email out to everyone in the category
+            new_commment_email = request.env['ir.model.data'].sudo().get_object('website_support', 'new_support_ticket_comment')
+            support_ticket_menu = request.env['ir.model.data'].sudo().get_object('website_support', 'website_support_ticket_menu')
+            support_ticket_action = request.env['ir.model.data'].sudo().get_object('website_support', 'website_support_ticket_action')
+            for my_user in ticket.category.cat_user_ids:
+                values = new_commment_email.generate_email([ticket.id])[ticket.id]
+                values['email_to'] = my_user.partner_id.email
+                values['body_html'] = values['body_html'].replace("_ticket_url_", "web#id=" + str(ticket.id) + "&view_type=form&model=website.support.ticket&menu_id=" + str(support_ticket_menu.id) + "&action=" + str(support_ticket_action.id) ).replace("_user_name_",  my_user.partner_id.name)
+                send_mail = request.env['mail.mail'].create(values)
+                send_mail.send(True)
+
         return werkzeug.utils.redirect("/support/ticket/view/" + str(ticket.id))
         
 
