@@ -27,7 +27,7 @@ class SupportTicketController(http.Controller):
         if http.request.env.user.name != "Public user":
             person_name = http.request.env.user.name
             
-        return http.request.render('website_support.support_submit_ticket', {'categories': http.request.env['website.support.ticket.categories'].sudo().search([]), 'person_name': person_name, 'email': http.request.env.user.email})
+        return http.request.render('website_support.support_submit_ticket', {'categories': http.request.env['website.support.ticket.categories'].sudo().search([]), 'priorities': http.request.env['website.support.ticket.priority'].sudo().search([]), 'person_name': person_name, 'email': http.request.env.user.email})
 
     @http.route('/support/feedback/process/<help_page>', type="http", auth="public", website=True)
     def support_feedback(self, help_page, **kw):
@@ -88,7 +88,7 @@ class SupportTicketController(http.Controller):
         
         if http.request.env.user.name != "Public user":
             portal_access_key = randint(1000000000,2000000000)
-            new_ticket_id = request.env['website.support.ticket'].sudo().create({'person_name':values['person_name'],'category':values['category'], 'email':values['email'], 'description':values['description'], 'subject':values['subject'], 'partner_id':http.request.env.user.partner_id.id, 'attachment': my_attachment, 'attachment_filename': file_name, 'portal_access_key': portal_access_key})
+            new_ticket_id = request.env['website.support.ticket'].sudo().create({'person_name':values['person_name'],'category':values['category'], 'priority_id':values['priority'], 'email':values['email'], 'description':values['description'], 'subject':values['subject'], 'partner_id':http.request.env.user.partner_id.id, 'attachment': my_attachment, 'attachment_filename': file_name, 'portal_access_key': portal_access_key})
             
             partner = http.request.env.user.partner_id
             
@@ -100,10 +100,10 @@ class SupportTicketController(http.Controller):
 
             if len(search_partner) > 0:
                 portal_access_key = randint(1000000000,2000000000)
-                new_ticket_id = request.env['website.support.ticket'].sudo().create({'person_name':values['person_name'], 'category':values['category'], 'email':values['email'], 'description':values['description'], 'subject':values['subject'], 'attachment': my_attachment, 'attachment_filename': file_name, 'partner_id':search_partner[0].id, 'portal_access_key': portal_access_key})
+                new_ticket_id = request.env['website.support.ticket'].sudo().create({'person_name':values['person_name'], 'category':values['category'], 'priority_id':values['priority'], 'email':values['email'], 'description':values['description'], 'subject':values['subject'], 'attachment': my_attachment, 'attachment_filename': file_name, 'partner_id':search_partner[0].id, 'portal_access_key': portal_access_key})
             else:
                 portal_access_key = randint(1000000000,2000000000)
-                new_ticket_id = request.env['website.support.ticket'].sudo().create({'person_name':values['person_name'], 'category':values['category'], 'email':values['email'], 'description':values['description'], 'subject':values['subject'], 'attachment': my_attachment, 'attachment_filename': file_name, 'portal_access_key': portal_access_key})
+                new_ticket_id = request.env['website.support.ticket'].sudo().create({'person_name':values['person_name'], 'category':values['category'], 'priority_id':values['priority'], 'email':values['email'], 'description':values['description'], 'subject':values['subject'], 'attachment': my_attachment, 'attachment_filename': file_name, 'portal_access_key': portal_access_key})
         
         return werkzeug.utils.redirect("/support/ticket/thanks")
         
