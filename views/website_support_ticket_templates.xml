@@ -347,7 +347,8 @@
             <div t-attf-class="form-group #{error and 'category' in error and 'has-error' or ''}">
                 <label class="col-md-3 col-sm-4 control-label" for="name">Category</label>
                 <div class="col-md-7 col-sm-8">
-                    <select class="form-control" name="category">
+                    <select class="form-control" name="category" required="True">
+                        <option></option>
                         <t t-foreach="categories" t-as="category">
 		                <option t-attf-value="#{category.id}"><t t-esc="category.name"/></option>
                         </t>
