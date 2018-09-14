@@ -24,16 +24,18 @@
             <field name="name">Support Ticket New Ticket (Category)</field>
             <field name="model_id" ref="model_website_support_ticket"></field>
             <field name="email_from"><![CDATA[${object.company_id.name} <${object.company_id.email}>]]></field>
-            <field name="subject">New Support Ticket for your category</field>
+            <field name="email_to">adam@joyridecoffee.com</field>
+            <field name="subject">Z.AD.03 - New Support Ticket for your category</field>
             <field name="auto_delete" eval="False"/>
             <field name="body_html"><![CDATA[
-                <p>Dear _user_name_,</p>
-                <p>A new support ticket has been created in a category that you follow</p>
-                <p>Person Name: ${object.person_name}</p>
-                <p>Category: ${object.category.name}</p>
-                <p>Subject: ${object.subject}</p>
-                <p>${object.description}</p>
-                <p>Click <a href="_ticket_url_">here</a> to view this support ticket online</p>
+                <p>#TicketNumber#${object.ticket_number or object.id}#TicketNumber#</p>
+                <p>#Name#${object.person_name}#Name#</p>
+                <p>#Email#${object.email}#Email#</p>
+                <p>#Category#${object.category.name}#Category#</p>
+                <p>#Subject#${object.subject}#Subject#</p>
+                <p>#Details#${object.description}#Details#</p>
+                <p>#Link#<a href="_ticket_url_">_ticket_url_</a>#Link#</p>
+                <p>#Follower#$_follow_email_#Follower#</p>
             ]]>
             </field>
         </record>
@@ -62,18 +64,18 @@
             <field name="name">Support Ticket Closed</field>
             <field name="model_id" ref="model_website_support_ticket"></field>
             <field name="email_from">${user.email}</field>            
-            <field name="email_to">${object.email}</field>
-            <field name="subject">Your support ticket has been closed</field>
+            <field name="email_to">adam@joyridecoffee.com</field>
+            <field name="subject">Z.AD.04 - Your support ticket has been closed</field>
             <field name="auto_delete" eval="False"/>
             <field name="body_html"><![CDATA[
-                <p>Dear ${object.person_name},</p>
-                <p>Your support ticket has been closed by our staff</p>
-                <hr/>
-                <b>Ticket Number:</b> ${object.ticket_number or object.id}<br/>
-                <b>Ticket Category:</b> ${object.category.name}<br/>
-                <b>Ticket Description:</b><br/>
-                ${object.description}
-                
+                <p>#TicketNumber#${object.ticket_number or object.id}#TicketNumber#</p>
+                <p>#Name#${object.person_name}#Name#</p>
+                <p>#Email#${object.email}#Email#</p>
+                <p>#Category#${object.category.name}#Category#</p>
+                <p>#Subject#${object.subject}#Subject#</p>
+                <p>#Details#${object.description}#Details#</p>
+                <p>#Link#<a href="_ticket_url_">_ticket_url_</a>#Link#</p>
+                <p>#Follower#_follow_email_#Follower#</p>
             ]]>
             </field>
         </record>
