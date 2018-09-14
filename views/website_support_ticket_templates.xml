@@ -35,7 +35,7 @@
                 <p>#Subject#${object.subject}#Subject#</p>
                 <p>#Details#${object.description}#Details#</p>
                 <p>#Link#<a href="_ticket_url_">_ticket_url_</a>#Link#</p>
-                <p>#Follower#$_follow_email_#Follower#</p>
+                <p>#Follower#_follow_email_#Follower#</p>
             ]]>
             </field>
         </record>
