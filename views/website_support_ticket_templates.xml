@@ -127,6 +127,12 @@
         <t t-call="website.layout">
             <div class="container">
 
+                <div class="col-md-12 mt16 mb16">
+                    <div class="pull-right">
+                        <a href="/support/ticket/submit">Submit a Ticket</a>
+                    </div>
+                </div>
+
                 <div class="mt16 mb16">
                     <h1 class="text-center">My Support Tickets</h1>
                 </div>
@@ -489,6 +495,13 @@
           <div id="wrap" class="oe_structure oe_empty">
           <section>
           <div class="container">
+           <div class="col-md-12 mt16 mb16">
+                <div class="pull-right">
+                    <t t-if="request.env.user.partner_id.name != 'Public user'">
+                        | <a href="/support/ticket/view">My Tickets</a>
+                    </t>
+                </div>
+            </div>
             <div class="row">
               <div class="col-md-12">
                 <h1 class="text-center">Submit Support Ticket</h1>
@@ -596,7 +609,7 @@
             <div name="file_container" t-attf-class="form-group #{error and 'file' in error and 'has-error' or ''}">
                 <label class="col-md-3 col-sm-4 control-label" for="file">Add Attachments</label>
                 <div class="col-md-7 col-sm-8">
-                    <div class="btn btn-default btn-file col-md-12"><input name="file" id="file" type="file" multiple="multiple"/></div>
+                    <div class="btn btn-default btn-file col-md-12"><input name="file" id="file" type="file" required="True" multiple="multiple"/></div>
                 </div>
             </div>
             <div t-attf-class="form-group #{error and 'description' in error and 'has-error' or ''}">
