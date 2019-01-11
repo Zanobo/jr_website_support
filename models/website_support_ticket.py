@@ -404,7 +404,7 @@ class WebsiteSupportTicket(models.Model):
         support_ticket_action = self.env['ir.model.data'].sudo().get_object('website_support', 'website_support_ticket_action')
 
         #Add them as a follower to the ticket so they are aware of any internal notes
-        new_id.message_subscribe_users(user_ids=new_id.category.cat_user_ids.ids)
+       # new_id.message_subscribe_users(user_ids=new_id.category.cat_user_ids.ids)
 
         follower_email_string = ""
         for my_user in new_id.category.cat_user_ids:
