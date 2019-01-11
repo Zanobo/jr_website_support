@@ -587,7 +587,8 @@
             <div t-attf-class="form-group #{error and 'category' in error and 'has-error' or ''}">
                 <label class="col-md-3 col-sm-4 control-label" for="name">Category</label>
                 <div class="col-md-7 col-sm-8">
-                    <select class="form-control" id="category" name="category">
+                    <select class="form-control" id="category" name="category" required="True">
+                        <option></option>
                         <t t-foreach="categories" t-as="category">
                             <option t-attf-value="#{category.id}"><t t-esc="category.name"/></option>
                         </t>
@@ -600,6 +601,18 @@
             <div id="subcategoy_fields">
 
             </div>
+
+            <div t-attf-class="form-group #{error and 'priority' in error and 'has-error' or ''}">
+                <label class="col-md-3 col-sm-4 control-label" for="name">Priority</label>
+                <div class="col-md-7 col-sm-8">
+                    <select class="form-control" name="priority">
+                        <t t-foreach="priorities" t-as="priority">
+		                <option t-attf-value="#{priority.id}"><t t-esc="priority.name"/></option>
+                        </t>
+                    </select>
+                </div>
+            </div>
+
             <div name="subject_container" t-attf-class="form-group #{error and 'subject' in error and 'has-error' or ''}">
                 <label class="col-md-3 col-sm-4 control-label" for="subject">Subject</label>
                 <div class="col-md-7 col-sm-8">

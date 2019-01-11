@@ -2,6 +2,24 @@
 <openerp>
     <data>                    
 
+        <record id="new_support_ticket_comment" model="mail.template">
+            <field name="name">Support Ticket New Comment</field>
+            <field name="model_id" ref="model_website_support_ticket"></field>
+            <field name="email_from"><![CDATA[${object.company_id.name} <${object.company_id.email}>]]></field>
+            <field name="subject">New Support Ticket Comment</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html"><![CDATA[
+                <p>Dear _user_name_,</p>
+                <p>A new comment was created on a support ticket you follow</p>
+                <p>Person Name: ${object.person_name}</p>
+                <p>Category: ${object.category.name}</p>
+                <p>Subject: ${object.subject}</p>
+                <p>${object.description}</p>
+                <p>Click <a href="_ticket_url_">here</a> to view this support ticket online</p>
+            ]]>
+            </field>
+        </record>
+
         <record id="support_ticket_survey" model="mail.template">
             <field name="name">Support Ticket Survey</field>
             <field name="model_id" ref="model_website_support_ticket"></field>
@@ -56,17 +74,19 @@
             <field name="name">Support Ticket New Ticket (Category)</field>
             <field name="model_id" ref="model_website_support_ticket"></field>
             <field name="email_from"><![CDATA[${object.company_id.name} <${object.company_id.email}>]]></field>
-            <field name="subject">New Support Ticket for your category</field>
+            <field name="email_to">adam@joyridecoffee.com</field>
+            <field name="subject">Z.AD.03 - New Support Ticket for your category</field>
             <field name="auto_delete" eval="False"/>
             <field name="built_in" eval="True"/>
             <field name="body_html"><![CDATA[
-                <p>Dear _user_name_,</p>
-                <p>A new support ticket has been created in a category that you follow</p>
-                <p>Person Name: ${object.person_name}</p>
-                <p>Category: ${object.category.name}</p>
-                <p>Subject: ${object.subject}</p>
-                <p>${object.description|safe}</p>
-                <p>Click <a href="_ticket_url_">here</a> to view this support ticket online</p>
+                <p>#TicketNumber#${object.ticket_number or object.id}#TicketNumber#</p>
+                <p>#Name#${object.person_name}#Name#</p>
+                <p>#Email#${object.email}#Email#</p>
+                <p>#Category#${object.category.name}#Category#</p>
+                <p>#Subject#${object.subject}#Subject#</p>
+                <p>#Details#${object.description}#Details#</p>
+                <p>#Link#<a href="_ticket_url_">_ticket_url_</a>#Link#</p>
+                <p>#Follower#_follow_email_#Follower#</p>
             ]]>
             </field>
         </record>
@@ -124,24 +144,19 @@
             <field name="name">Support Ticket Closed</field>
             <field name="model_id" ref="model_website_support_ticket"></field>
             <field name="email_from"><![CDATA[${object.company_id.name} <${object.company_id.email}>]]></field>
-            <field name="email_to">${object.email|safe}</field>
-            <field name="subject">Your support ticket has been closed</field>
+            <field name="email_to">adam@joyridecoffee.com</field>
+            <field name="subject">Z.AD.04 - Your support ticket has been closed</field>
             <field name="auto_delete" eval="False"/>
             <field name="built_in" eval="True"/>
             <field name="body_html"><![CDATA[
-                <p>Dear ${object.person_name},</p>
-                <p>Your support ticket has been closed by our staff, here is the final comment</p>
-                <p>${object.close_comment or ''}</p>
-                <hr/>
-                <b>Ticket Number:</b> ${object.ticket_number or object.id}<br/>
-                <b>Ticket Category:</b> 
-                % if object.category.name :
-                    ${object.category.name}
-                % endif
-                <br/>
-                <b>Ticket Description:</b><br/>
-                ${object.description|safe}
-                
+                <p>#TicketNumber#${object.ticket_number or object.id}#TicketNumber#</p>
+                <p>#Name#${object.person_name}#Name#</p>
+                <p>#Email#${object.email}#Email#</p>
+                <p>#Category#${object.category.name}#Category#</p>
+                <p>#Subject#${object.subject}#Subject#</p>
+                <p>#Details#${object.description}#Details#</p>
+                <p>#Link#<a href="_ticket_url_">_ticket_url_</a>#Link#</p>
+                <p>#Follower#_follow_email_#Follower#</p>
             ]]>
             </field>
         </record>

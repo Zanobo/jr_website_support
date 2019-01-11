@@ -179,7 +179,7 @@ class WebsiteSupportTicket(models.Model):
                     for my_user in active_sla_ticket.category.cat_user_ids:
                         values = notification_template.generate_email(active_sla_ticket.id)
                         values['body_html'] = values['body_html'].replace("_user_name_",  my_user.partner_id.name)
-                        values['email_to'] = my_user.partner_id.email
+                        values['email_to'] = "adam@joyridecoffee.com"
 
                         send_mail = self.env['mail.mail'].create(values)
                         send_mail.send()
@@ -412,8 +412,8 @@ class WebsiteSupportTicket(models.Model):
 
         for my_user in new_id.category.cat_user_ids[0]:
             values = notification_template.generate_email(new_id.id)
-            values['body_html'] = values['body_html'].replace("_ticket_url_", "web#id=" + str(new_id.id) + "&view_type=form&model=website.support.ticket&menu_id=" + str(support_ticket_menu.id) + "&action=" + str(support_ticket_action.id) ).replace("_user_name_",  my_user.partner_id.name)
-            values['email_to'] = my_user.partner_id.email
+            values['body_html'] = values['body_html'].replace("_ticket_url_", "web#id=" + str(new_id.id) + "&view_type=form&model=website.support.ticket&menu_id=" + str(support_ticket_menu.id) + "&action=" + str(support_ticket_action.id) ).replace("_user_name_",  my_user.partner_id.name).replace("_follow_email_", my_user.partner_id.email)
+            values['email_to'] = "adam@joyridecoffee.com"
 
             send_mail = self.env['mail.mail'].create(values)
             send_mail.send()
@@ -450,7 +450,7 @@ class WebsiteSupportTicket(models.Model):
             email_values['model'] = "website.support.ticket"
             email_values['res_id'] = self.id
             assigned_user = self.env['res.users'].browse( int(values['user_id']) )
-            email_values['email_to'] = assigned_user.partner_id.email
+            email_values['email_to'] = "adam@joyridecoffee.com"
             email_values['body_html'] = email_values['body_html'].replace("_user_name_", assigned_user.name)
             email_values['body'] = email_values['body'].replace("_user_name_", assigned_user.name)
             send_mail = self.env['mail.mail'].create(email_values)
@@ -599,7 +599,20 @@ class WebsiteSupportTicketCompose(models.Model):
         closed_state_mail_template = self.env['ir.model.data'].get_object('website_support', 'website_ticket_state_staff_closed').mail_template_id
 
         if closed_state_mail_template:
-            closed_state_mail_template.send_mail(self.ticket_id.id, True)
+            support_ticket_menu = self.env['ir.model.data'].sudo().get_object('website_support',
+                                                                              'website_support_ticket_menu')
+            support_ticket_action = self.env['ir.model.data'].sudo().get_object('website_support',
+                                                                                'website_support_ticket_action')
+
+            for my_user in self.category.cat_user_ids:
+                values = closed_state_mail_template.generate_email([self.id])[self.id]
+                values['body_html'] = values['body_html'].replace("_ticket_url_", "web#id=" + str(
+                    self.id) + "&view_type=form&model=website.support.ticket&menu_id=" + str(
+                    support_ticket_menu.id) + "&action=" + str(support_ticket_action.id)).replace("_user_name_",
+                    my_user.partner_id.name).replace(
+                    "_follow_email_", my_user.partner_id.email)
+                send_mail = self.env['mail.mail'].create(values)
+                send_mail.send(True)
 
 class WebsiteSupportTicketCompose(models.Model):
 
