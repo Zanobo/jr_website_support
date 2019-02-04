@@ -204,7 +204,7 @@ class WebsiteSupportTicket(models.Model):
         if self.planned_time and self.partner_id and self.partner_id.lang:
             partner_language = self.env['res.lang'].search([('code','=', self.partner_id.lang)])[0]
 
-            my_planned_time = datetime.datetime.strptime(self.planned_time, DEFAULT_SERVER_DATETIME_FORMAT)
+            my_planned_time = self.planned_time
 
             #If we have timezone information translate the planned date to local time otherwise UTC
             if self.partner_id.tz:
@@ -580,7 +580,7 @@ class WebsiteSupportTicketCompose(models.Model):
         #Also set the date for gamification
         self.ticket_id.close_date = datetime.date.today()
 
-        diff_time = datetime.datetime.strptime(self.ticket_id.close_time, DEFAULT_SERVER_DATETIME_FORMAT) - datetime.datetime.strptime(self.ticket_id.create_date, DEFAULT_SERVER_DATETIME_FORMAT)
+        diff_time = self.ticket_id.close_time - self.ticket_id.create_date
         self.ticket_id.time_to_close = diff_time.seconds
 
         closed_state = self.env['ir.model.data'].sudo().get_object('website_support', 'website_ticket_state_staff_closed')
