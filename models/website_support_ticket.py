@@ -600,7 +600,7 @@ class WebsiteSupportTicketCompose(models.Model):
         if setting_auto_send_survey:
             self.ticket_id.send_survey()
 
-        closed_state_mail_template = self.env['ir.model.data'].get_object('website_support', 'support_ticket_closed').mail_template_id
+        closed_state_mail_template = self.env['ir.model.data'].get_object('website_support', 'support_ticket_closed')
 
         if closed_state_mail_template:
             support_ticket_menu = self.env['ir.model.data'].sudo().get_object('website_support',
