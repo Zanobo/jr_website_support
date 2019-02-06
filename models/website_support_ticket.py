@@ -601,7 +601,10 @@ class WebsiteSupportTicketCompose(models.Model):
             self.ticket_id.send_survey()
 
         closed_state_mail_template = self.env['ir.model.data'].get_object('website_support', 'support_ticket_closed')
-
+        _logger.debug(closed_state_mail_template)
+        _logger.debug(self)
+        _logger.debug(self.id)
+        _logger.debug(self.ticket_id)
         if closed_state_mail_template:
             support_ticket_menu = self.env['ir.model.data'].sudo().get_object('website_support',
                                                                               'website_support_ticket_menu')
@@ -615,7 +618,9 @@ class WebsiteSupportTicketCompose(models.Model):
                     support_ticket_menu.id) + "&action=" + str(support_ticket_action.id)).replace("_user_name_",
                     my_user.partner_id.name).replace(
                     "_follow_email_", my_user.partner_id.email)
+                _logger.debug(values)
                 send_mail = self.env['mail.mail'].create(values)
+                _logger.debug(send_mail)
                 send_mail.send(True)
 
 class WebsiteSupportTicketCompose(models.Model):
