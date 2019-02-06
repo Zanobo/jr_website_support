@@ -149,6 +149,7 @@
             <field name="auto_delete" eval="False"/>
             <field name="built_in" eval="True"/>
             <field name="body_html"><![CDATA[
+                <p>#TicketNumber#${object.ticket_number or object.id}#TicketNumber#</p>
                 <p>#Name#${object.person_name}#Name#</p>
                 <p>#Email#${object.email}#Email#</p>
                 <p>#Category#${object.category.name}#Category#</p>
