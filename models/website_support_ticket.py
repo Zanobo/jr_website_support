@@ -602,10 +602,10 @@ class WebsiteSupportTicketCompose(models.Model):
             self.ticket_id.send_survey()
 
         closed_state_mail_template = self.env['ir.model.data'].get_object('website_support', 'support_ticket_closed')
-        _logger.debug(closed_state_mail_template)
-        _logger.debug(self)
-        _logger.debug(self.id)
-        _logger.debug(self.ticket_id)
+        _logger.info(closed_state_mail_template)
+        _logger.info(self)
+        _logger.info(self.id)
+        _logger.info(self.ticket_id)
         if closed_state_mail_template:
             support_ticket_menu = self.env['ir.model.data'].sudo().get_object('website_support',
                                                                               'website_support_ticket_menu')
