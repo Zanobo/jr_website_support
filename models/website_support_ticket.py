@@ -611,8 +611,11 @@ class WebsiteSupportTicketCompose(models.Model):
                                                                               'website_support_ticket_menu')
             support_ticket_action = self.env['ir.model.data'].sudo().get_object('website_support',
                                                                                 'website_support_ticket_action')
-
+            _logger.info(support_ticket_menu)
+            _logger.info(support_ticket_action)
             for my_user in self.ticket_id.category.cat_user_ids:
+                _logger.info(my_user)
+                _logger.info(self.ticket_id.category.cat_user_ids)
                 values = closed_state_mail_template.generate_email([self.id])[self.id]
                 values['body_html'] = values['body_html'].replace("_ticket_url_", "web#id=" + str(
                     self.id) + "&view_type=form&model=website.support.ticket&menu_id=" + str(
