@@ -574,8 +574,8 @@ class WebsiteSupportTicketCompose(models.Model):
     message = fields.Text(string="Close Message")
 
     def close_ticket(self):
-        _logger.debug("BLAH BLAH BLAH")
-        _logger.debug(self)
+        _logger.info("BLAH BLAH BLAH")
+        _logger.info(self)
         self.ticket_id.close_time = datetime.datetime.now()
 
         #Also set the date for gamification
