@@ -123,11 +123,20 @@ class SupportTicketController(http.Controller):
     def support_subcategories_fetch(self, **kwargs):
 
         values = {}
+        _logger.info(kwargs)
+        print(kwargs)
         for field_name, field_value in kwargs.items():
+            _logger.info(field_name)
+            print(field_name)
+            _logger.info(field_value)
+            print(field_value)
             values[field_name] = field_value
-
-        sub_categories = request.env['website.support.ticket.subcategory'].sudo().search([('parent_category_id','=', int(values['category']) )])
-
+        print(values)
+        _logger.info(values)
+        if values['category']:
+            sub_categories = request.env['website.support.ticket.subcategory'].sudo().search([('parent_category_id','=', int(values['category']) )])
+        else:
+            sub_categories = False
         #Only return a dropdown if this category has subcategories
         return_string = ""
 
@@ -549,7 +558,11 @@ class SupportTicketController(http.Controller):
         """Close the support ticket"""
 
         values = {}
+        print("TEST TEST TEST")
+        print(kw)
         for field_name, field_value in kw.items():
+            print(field_name)
+            print(field_value)
             values[field_name] = field_value
 
         ticket = http.request.env['website.support.ticket'].sudo().search([('id','=',values['ticket_id'])])
