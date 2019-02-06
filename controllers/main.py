@@ -576,7 +576,7 @@ class SupportTicketController(http.Controller):
             ticket.close_time = datetime.datetime.now()
             ticket.close_date = datetime.date.today()
 
-            diff_time = datetime.datetime.strptime(ticket.close_time, DEFAULT_SERVER_DATETIME_FORMAT) - datetime.datetime.strptime(ticket.create_date, DEFAULT_SERVER_DATETIME_FORMAT)
+            diff_time = ticket.close_time - ticket.create_date
             ticket.time_to_close = diff_time.seconds
 
             ticket.sla_active = False
