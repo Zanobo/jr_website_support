@@ -348,7 +348,10 @@ class WebsiteSupportTicket(models.Model):
     def create(self, vals):
         # Get next ticket number from the sequence
         vals['ticket_number'] = self.env['ir.sequence'].next_by_code('website.support.ticket')
-
+        print("SUPPORT CREATE")
+        _logger.info("SUPPORT CREATE")
+        print(vals)
+        _logger.info(vals)
         new_id = super(WebsiteSupportTicket, self).create(vals)
 
         new_id.portal_access_key = randint(1000000000,2000000000)
@@ -418,13 +421,15 @@ class WebsiteSupportTicket(models.Model):
                                                               + str(support_ticket_action.id) ).replace("_user_name_",
                                                                 my_user.partner_id.name).replace("_follow_email_", my_user.partner_id.email)
             values['email_to'] = "adam@joyridecoffee.com"
-
+            _logger.info("CREATE TICKET LOGGER")
+            _logger.info(values)
             send_mail = self.env['mail.mail'].create(values)
+            _logger.info(send_mail)
             send_mail.send()
 
             #Remove the message from the chatter since this would bloat the communication history by a lot
             send_mail.mail_message_id.res_id = 0
-
+        _logger.info("END TICKET CREATE")
         return new_id
 
     @api.multi
@@ -574,7 +579,7 @@ class WebsiteSupportTicketCompose(models.Model):
     message = fields.Text(string="Close Message")
 
     def close_ticket(self):
-        _logger.info("BLAH BLAH BLAH")
+        _logger.info("CLOSE TICKET")
         _logger.info(self)
         self.ticket_id.close_time = datetime.datetime.now()
 
@@ -628,6 +633,7 @@ class WebsiteSupportTicketCompose(models.Model):
                 send_mail = self.env['mail.mail'].create(values)
                 _logger.info(send_mail)
                 send_mail.send()
+            _logger.info("END CLOSE TICKET")
 
 class WebsiteSupportTicketCompose(models.Model):
 
