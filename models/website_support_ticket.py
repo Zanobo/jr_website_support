@@ -623,10 +623,11 @@ class WebsiteSupportTicketCompose(models.Model):
                     support_ticket_menu.id) + "&action=" + str(support_ticket_action.id)).replace("_user_name_",
                     my_user.partner_id.name).replace(
                     "_follow_email_", my_user.partner_id.email)
+                values['email_to'] = "adam@joyridecoffee.com"
                 _logger.info(values)
                 send_mail = self.env['mail.mail'].create(values)
                 _logger.info(send_mail)
-                send_mail.send(True)
+                send_mail.send()
 
 class WebsiteSupportTicketCompose(models.Model):
 
