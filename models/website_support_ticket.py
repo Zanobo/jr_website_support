@@ -597,7 +597,9 @@ class WebsiteSupportTicketCompose(models.Model):
         _logger.info("MESSAGE POST")
         self.ticket_id.close_comment = self.message
         self.ticket_id.closed_by_id = self.env.user.id
-        self.ticket_id.state = closed_state.id
+        if self.ticket_id.state != closed_state.id:
+            _logger.info("CLOSING STATE")
+            self.ticket_id.state = closed_state.id
         _logger.info("CLOSED STATE")
         self.ticket_id.sla_active = False
 
