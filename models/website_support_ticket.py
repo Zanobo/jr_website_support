@@ -622,16 +622,18 @@ class WebsiteSupportTicketCompose(models.Model):
                 _logger.info(my_user)
                 _logger.info(self.ticket_id.category.cat_user_ids)
                 values = closed_state_mail_template.generate_email([self.ticket_id.id])[self.ticket_id.id]
-                _logger.info(values)
-                values['body_html'] = values['body_html'].replace("_ticket_url_", "web#id=" + str(
+                _logger.info(values['body_html'])
+                values['body_html'] = values['body_html'].replace("_ticket_url_", "https://joyride-odoo.com/web#id=" + str(
                     self.id) + "&view_type=form&model=website.support.ticket&menu_id=" + str(
-                    support_ticket_menu.id) + "&action=" + str(support_ticket_action.id)).replace("_user_name_",
-                    my_user.partner_id.name).replace(
+                    support_ticket_menu.id) + "&action=" + str(support_ticket_action.id)).replace(
                     "_follow_email_", my_user.partner_id.email)
                 values['email_to'] = "adam@joyridecoffee.com"
-                _logger.info(values)
+                _logger.info("EMAIL")
+                _logger.info(my_user.partner_id.email)
+                _logger.info(my_user.partner_id.name)
+                _logger.info(values['body_html'])
                 send_mail = self.env['mail.mail'].create(values)
-                _logger.info(send_mail)
+                _logger.info(send_mail.body_html)
                 send_mail.send()
             _logger.info("END CLOSE TICKET")
 
