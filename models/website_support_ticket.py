@@ -594,7 +594,7 @@ class WebsiteSupportTicketCompose(models.Model):
         #We record state change manually since it would spam the chatter if every 'Staff Replied' and 'Customer Replied' gets recorded
         message = "<ul class=\"o_mail_thread_message_tracking\">\n<li>State:<span> " + self.ticket_id.state.name + " </span><b>-></b> " + closed_state.name + " </span></li></ul>"
         self.ticket_id.message_post(body=message, subject="Ticket Closed by Staff")
-
+        _logger.info("MESSAGE POST")
         self.ticket_id.close_comment = self.message
         self.ticket_id.closed_by_id = self.env.user.id
         self.ticket_id.state = closed_state.id
@@ -602,9 +602,9 @@ class WebsiteSupportTicketCompose(models.Model):
         self.ticket_id.sla_active = False
 
         #Auto send out survey
-        setting_auto_send_survey = self.env['ir.default'].get('website.support.settings', 'auto_send_survey')
-        if setting_auto_send_survey:
-            self.ticket_id.send_survey()
+        #setting_auto_send_survey = self.env['ir.default'].get('website.support.settings', 'auto_send_survey')
+        #if setting_auto_send_survey:
+        #    self.ticket_id.send_survey()
 
         closed_state_mail_template = self.env['ir.model.data'].get_object('website_support', 'support_ticket_closed')
         _logger.info(closed_state_mail_template)
