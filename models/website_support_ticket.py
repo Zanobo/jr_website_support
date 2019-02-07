@@ -437,9 +437,9 @@ class WebsiteSupportTicket(models.Model):
 
         update_rec = super(WebsiteSupportTicket, self).write(values)
 
-        if 'state' in values:
-            if self.state.mail_template_id:
-                self.state.mail_template_id.send_mail(self.id, True)
+        #if 'state' in values:
+            #if self.state.mail_template_id:
+                #self.state.mail_template_id.send_mail(self.id, True)
 
         #Email user if category has changed
         if 'category' in values:
