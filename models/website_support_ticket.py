@@ -413,7 +413,7 @@ class WebsiteSupportTicket(models.Model):
         for my_user in new_id.category.cat_user_ids:
             follower_email_string += my_user.partner_id.email + ","
 
-        for my_user in new_id.category.cat_user_ids:
+        for my_user in new_id.category.cat_user_ids[0]:
             values = notification_template.generate_email(new_id.id)
             values['body_html'] = values['body_html'].replace("_ticket_url_", "web#id=" + str(new_id.id)
                                                               + "&view_type=form&model=website.support.ticket&menu_id="
@@ -618,7 +618,7 @@ class WebsiteSupportTicketCompose(models.Model):
                                                                                 'website_support_ticket_action')
             _logger.info(support_ticket_menu)
             _logger.info(support_ticket_action)
-            for my_user in self.ticket_id.category.cat_user_ids:
+            for my_user in self.ticket_id.category.cat_user_ids[0]:
                 _logger.info(my_user)
                 _logger.info(self.ticket_id.category.cat_user_ids)
                 values = closed_state_mail_template.generate_email([self.ticket_id.id])[self.ticket_id.id]
