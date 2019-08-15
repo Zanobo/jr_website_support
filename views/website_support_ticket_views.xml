@@ -35,6 +35,8 @@
                                 <field name="user_id" domain="[('share','=',False)]"/>
                                 <field name="partner_id"/>
                                 <field name="person_name"/>
+                                <field name="placed_by"/>
+                                <field name="placed_for"/>
                                 <field name="email"/>
                                 <field name="approval_id"/>
                                 <field name="support_rating" readonly="1"/>

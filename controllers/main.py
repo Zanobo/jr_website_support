@@ -123,16 +123,8 @@ class SupportTicketController(http.Controller):
     def support_subcategories_fetch(self, **kwargs):
 
         values = {}
-        _logger.info(kwargs)
-        print(kwargs)
         for field_name, field_value in kwargs.items():
-            _logger.info(field_name)
-            print(field_name)
-            _logger.info(field_value)
-            print(field_value)
             values[field_name] = field_value
-        print(values)
-        _logger.info(values)
         if values['category']:
             sub_categories = request.env['website.support.ticket.subcategory'].sudo().search([('parent_category_id','=', int(values['category']) )])
         else:
@@ -286,7 +278,12 @@ class SupportTicketController(http.Controller):
         setting_max_ticket_attachment_filesize = request.env['ir.default'].get('website.support.settings', 'max_ticket_attachment_filesize')
         setting_allow_website_priority_set = request.env['ir.default'].get('website.support.settings', 'allow_website_priority_set')
 
-        return http.request.render('website_support.support_submit_ticket', {'categories': ticket_categories, 'priorities': http.request.env['website.support.ticket.priority'].sudo().search([]), 'person_name': person_name, 'email': http.request.env.user.email, 'setting_max_ticket_attachments': setting_max_ticket_attachments, 'setting_max_ticket_attachment_filesize': setting_max_ticket_attachment_filesize, 'setting_google_recaptcha_active': setting_google_recaptcha_active, 'setting_google_captcha_client_key': setting_google_captcha_client_key, 'setting_allow_website_priority_set': setting_allow_website_priority_set})
+        user_email = http.request.env.user.email
+
+        placed_for_data = http.request.env['joyride.delivery_log_customer'].sudo().search([]).mapped(lambda r: r.customer_name + ' - ' + r.customer_id)
+        placed_for_replaced = [w.replace("'","").replace("@","") for w in placed_for_data]
+
+        return http.request.render('website_support.support_submit_ticket', {'categories': ticket_categories, 'placed_for': placed_for_replaced, 'priorities': http.request.env['website.support.ticket.priority'].sudo().search([]), 'person_name': person_name, 'email': http.request.env.user.email, 'setting_max_ticket_attachments': setting_max_ticket_attachments, 'setting_max_ticket_attachment_filesize': setting_max_ticket_attachment_filesize, 'setting_google_recaptcha_active': setting_google_recaptcha_active, 'setting_google_captcha_client_key': setting_google_captcha_client_key, 'setting_allow_website_priority_set': setting_allow_website_priority_set})
 
     @http.route('/support/feedback/process/<help_page>', type="http", auth="public", website=True)
     def support_feedback(self, help_page, **kw):
@@ -372,7 +369,7 @@ class SupportTicketController(http.Controller):
             sub_category = ""
 
 
-        create_dict = {'person_name':values['person_name'],'category':values['category'], 'sub_category_id': sub_category, 'email':values['email'], 'description':values['description'], 'subject':values['subject'], 'attachment': my_attachment, 'attachment_filename': file_name}
+        create_dict = {'person_name':values['person_name'],'category':values['category'], 'sub_category_id': sub_category, 'email':values['email'], 'description':values['description'], 'placed_for': values['placed_for'], 'placed_by': values['placed_by'], 'subject':values['subject'], 'attachment': my_attachment, 'attachment_filename': file_name}
 
         if http.request.env.user.name != "Public user":
 
@@ -558,11 +555,7 @@ class SupportTicketController(http.Controller):
         """Close the support ticket"""
 
         values = {}
-        print("TEST TEST TEST")
-        print(kw)
         for field_name, field_value in kw.items():
-            print(field_name)
-            print(field_value)
             values[field_name] = field_value
 
         ticket = http.request.env['website.support.ticket'].sudo().search([('id','=',values['ticket_id'])])
@@ -582,13 +575,11 @@ class SupportTicketController(http.Controller):
             ticket.sla_active = False
 
             closed_state_mail_template = customer_closed_state.mail_template_id
-
             if closed_state_mail_template:
                 closed_state_mail_template.send_mail(ticket.id, True)
 
         else:
             return "You do not have permission to close this commment"
-
         return werkzeug.utils.redirect("/support/ticket/view/" + str(ticket.id))
 
     @http.route('/support/help/auto-complete',auth="public", website=True, type='http')

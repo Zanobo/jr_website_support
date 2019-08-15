@@ -101,6 +101,8 @@ class WebsiteSupportTicket(models.Model):
     sla_rule_id = fields.Many2one('website.support.sla.rule', string="SLA Rule")
     sla_alert_ids = fields.Many2many('website.support.sla.alert', string="SLA Alerts",
                                      help="Keep record of SLA alerts sent so we do not resend them")
+    placed_by = fields.Char(string='Placed By')
+    placed_for = fields.Char(string="Placed For")
 
     @api.one
     @api.depends('sla_timer')
