@@ -279,8 +279,14 @@ class SupportTicketController(http.Controller):
         setting_allow_website_priority_set = request.env['ir.default'].get('website.support.settings', 'allow_website_priority_set')
 
         user_email = http.request.env.user.email
+        Employee = request.env['joyride.employees']
+        current_employee = Employee.search([('email', '=', user_email)])
+        employee_branch = current_employee.branch
 
-        placed_for_data = http.request.env['joyride.delivery_log_customer'].sudo().search([]).mapped(lambda r: r.customer_name + ' - ' + r.customer_id)
+        if employee_branch:
+            placed_for_data = http.request.env['joyride.delivery_log_customer'].sudo().search(['branch', '=', employee_branch]).mapped(lambda r: r.customer_name + ' - ' + r.customer_id)
+        else:
+            placed_for_data = http.request.env['joyride.delivery_log_customer'].sudo().search([]).mapped(lambda r: r.customer_name + ' - ' + r.customer_id)
         placed_for_replaced = [w.replace("'","").replace("@","") for w in placed_for_data]
 
         return http.request.render('website_support.support_submit_ticket', {'categories': ticket_categories, 'placed_for': placed_for_replaced, 'priorities': http.request.env['website.support.ticket.priority'].sudo().search([]), 'person_name': person_name, 'email': http.request.env.user.email, 'setting_max_ticket_attachments': setting_max_ticket_attachments, 'setting_max_ticket_attachment_filesize': setting_max_ticket_attachment_filesize, 'setting_google_recaptcha_active': setting_google_recaptcha_active, 'setting_google_captcha_client_key': setting_google_captcha_client_key, 'setting_allow_website_priority_set': setting_allow_website_priority_set})

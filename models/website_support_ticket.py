@@ -181,7 +181,7 @@ class WebsiteSupportTicket(models.Model):
                     for my_user in active_sla_ticket.category.cat_user_ids:
                         values = notification_template.generate_email(active_sla_ticket.id)
                         values['body_html'] = values['body_html'].replace("_user_name_",  my_user.partner_id.name)
-                        values['email_to'] = "adam@joyridecoffee.com"
+                        values['email_to'] = "automation@joyridecoffee.com"
 
                         send_mail = self.env['mail.mail'].create(values)
                         send_mail.send()
@@ -422,7 +422,7 @@ class WebsiteSupportTicket(models.Model):
                                                               + str(support_ticket_menu.id) + "&action="
                                                               + str(support_ticket_action.id) ).replace("_user_name_",
                                                                 my_user.partner_id.name).replace("_follow_email_", my_user.partner_id.email)
-            values['email_to'] = "adam@joyridecoffee.com"
+            values['email_to'] = "automation@joyridecoffee.com"
             _logger.info("CREATE TICKET LOGGER")
             _logger.info(values)
             send_mail = self.env['mail.mail'].create(values)
@@ -461,7 +461,7 @@ class WebsiteSupportTicket(models.Model):
             email_values['model'] = "website.support.ticket"
             email_values['res_id'] = self.id
             assigned_user = self.env['res.users'].browse( int(values['user_id']) )
-            email_values['email_to'] = "adam@joyridecoffee.com"
+            email_values['email_to'] = "automation@joyridecoffee.com"
             email_values['body_html'] = email_values['body_html'].replace("_user_name_", assigned_user.name)
             email_values['body'] = email_values['body'].replace("_user_name_", assigned_user.name)
             send_mail = self.env['mail.mail'].create(email_values)
@@ -631,7 +631,7 @@ class WebsiteSupportTicketCompose(models.Model):
                     self.id) + "&view_type=form&model=website.support.ticket&menu_id=" + str(
                     support_ticket_menu.id) + "&action=" + str(support_ticket_action.id)).replace(
                     "_follow_email_", my_user.partner_id.email)
-                values['email_to'] = "adam@joyridecoffee.com"
+                values['email_to'] = "automation@joyridecoffee.com"
                 _logger.info("EMAIL")
                 _logger.info(my_user.partner_id.email)
                 _logger.info(my_user.partner_id.name)

@@ -74,7 +74,7 @@
             <field name="name">Support Ticket New Ticket (Category)</field>
             <field name="model_id" ref="model_website_support_ticket"></field>
             <field name="email_from"><![CDATA[${object.company_id.name} <${object.company_id.email}>]]></field>
-            <field name="email_to">adam@joyridecoffee.com</field>
+            <field name="email_to">automation@joyridecoffee.com</field>
             <field name="subject">Z.AD.03 - New Support Ticket for your category</field>
             <field name="auto_delete" eval="False"/>
             <field name="built_in" eval="True"/>
@@ -87,6 +87,8 @@
                 <p>#Details#${object.description}#Details#</p>
                 <p>#Link#<a href="_ticket_url_">_ticket_url_</a>#Link#</p>
                 <p>#Follower#_follow_email_#Follower#</p>
+                <p>#SubmittedFor#${object.placed_by}#SubmittedFor#</p>
+                <p>#CustName#${object.placed_for}#CustName#</p>
             ]]>
             </field>
         </record>
@@ -144,7 +146,7 @@
             <field name="name">Support Ticket Closed</field>
             <field name="model_id" ref="model_website_support_ticket"></field>
             <field name="email_from"><![CDATA[${object.company_id.name} <${object.company_id.email}>]]></field>
-            <field name="email_to">adam@joyridecoffee.com</field>
+            <field name="email_to">automation@joyridecoffee.com</field>
             <field name="subject">Z.AD.04 - Your support ticket has been closed</field>
             <field name="auto_delete" eval="False"/>
             <field name="built_in" eval="True"/>
@@ -157,6 +159,8 @@
                 <p>#Details#${object.description}#Details#</p>
                 <p>#Link#<a href="_ticket_url_">_ticket_url_</a>#Link#</p>
                 <p>#Follower#_follow_email_#Follower#</p>
+                <p>#SubmittedFor#${object.placed_by}#SubmittedFor#</p>
+                <p>#CustName#${object.placed_for}#CustName#</p>
             ]]>
             </field>
         </record>
