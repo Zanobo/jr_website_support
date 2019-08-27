@@ -284,7 +284,7 @@ class SupportTicketController(http.Controller):
         employee_branch = current_employee.branch
 
         if employee_branch:
-            placed_for_data = http.request.env['joyride.delivery_log_customer'].sudo().search(['branch', '=', employee_branch]).mapped(lambda r: r.customer_name + ' - ' + r.customer_id)
+            placed_for_data = http.request.env['joyride.delivery_log_customer'].sudo().search([('branch', '=', employee_branch)]).mapped(lambda r: r.customer_name + ' - ' + r.customer_id)
         else:
             placed_for_data = http.request.env['joyride.delivery_log_customer'].sudo().search([]).mapped(lambda r: r.customer_name + ' - ' + r.customer_id)
         placed_for_replaced = [w.replace("'","").replace("@","") for w in placed_for_data]
